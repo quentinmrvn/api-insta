@@ -1,13 +1,8 @@
-import fetchInstaApi from '../services/instaApi'
+import {getImages} from '../services/instaApi'
 
 const App = {
     selectors: {
         app: '#app'
-    },
-    apiConfig: {
-        clientId: 'testapifr',
-        responseType: 'token',
-        redirectUrl: 'http://localhost:8080/'
     },
     init: function(){
         this.$app = document.querySelector(this.selectors.app)
@@ -15,10 +10,24 @@ const App = {
         this.appendResponse()
     },
     appendResponse: function(){
-        fetchInstaApi(this.apiConfig)
+        getImages()
             .then(response => {
-                console.log(response)
+                this.createImages(response)
             })
+    },
+    createImages: function(images) {
+        images.forEach(image => {
+            this.renderPost(image)
+        });
+    },
+    renderPost: function (image) {
+        const container = document.createElement('div')
+        container.classList.add('col-md-3')
+        const template = `
+            <img id="${image.id}" src="${image.media_url}"/>
+        `
+        container.innerHTML = template
+        this.$app.appendChild(container)
     }
 }
 
