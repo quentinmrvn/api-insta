@@ -17,7 +17,7 @@ const App = {
     appendResponse: function(){
         fetchInstaApi(this.apiConfig)
             .then(response => {
-                this.$app.append(response)
+                console.log(response)
             })
     }
 }
